@@ -53,11 +53,11 @@ https://www.docker.com/get-started
 
 To install Kubectl, please see the following Website.
 
-https://v1-18.docs.kubernetes.io/docs/tasks/tools/install-kubectl/
+https://kubernetes.io/docs/tasks/tools/
 
 To install Minikube, please see the following Website.
 
-https://v1-18.docs.kubernetes.io/docs/tasks/tools/install-minikube/
+https://minikube.sigs.k8s.io/docs/start
 
 Like in the previous assignments we will be using Git and Github for submission,
 so please ensure you still have Git installed. Though we will not be checking
@@ -301,8 +301,14 @@ On NYU Classes, submit a link to your GitHub repository. The repository
 should be **private**, and you should add the instructor/TA's GitHub
 account as a contributor to give them access for grading.
 
-For this section, your instructor is: Kevin Gallagher, GitHub ID `kcg295`.
-For this section, your TA is Evan Richter, GitHub ID `evanrichter`.
+For this section, your instructors are:
+* John Ryan Allen, GitHub ID `NYUJRA`.
+* Abhijit Chitnis, GitHub ID `achitnis007`.
+
+For this section, your TAs are:
+* Jess Ayala, GitHub ID `jayala-29`.
+* Geetha D, GitHub ID `dgeeth9595`.
+* Harsh Patel, GitHub ID `harshsorra`.
 
 The repository should contain:
 
