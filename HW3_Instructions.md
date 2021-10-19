@@ -41,11 +41,51 @@ Kubernetes is a fairly complicated beast. To help you get oriented, we've create
 
 ## Part 0: Setting up Your Environment
 
-In order to complete this assignment you will need Docker, minikube, and 
-kubectl. Installing these is not simple, and is highly platform dependent.
-Rather than detail how to install these software on different platforms, this
-document instead links to the relevant information on how to install these tools
-at their official sites.
+This assignment requires Docker, minikube, and kubectl. The supported
+operating for this course is **Ubuntu 20.04.3 LTS**. You can use [this script](nyu-appsec-a3-ubuntu20043lts-setup.sh)
+to automatically install and configure the required software on the 
+supported operating system. After saving the file, simply execute the following
+command as a standard system user (root will not work) that has sudo privileges:
+
+```
+bash nyu-appsec-a3-ubuntu20043lts-setup.sh
+```
+Assuming your standard user is not already in a group named docker, the script
+will install docker and add your standard user to the docker group.
+
+Then, reboot your system and run the command one more time.
+ ```
+bash nyu-appsec-a3-ubuntu20043lts-setup.sh
+```
+Now that docker is installed and your user is in the docker group, it will install
+the remaining software required for the assignment. A successful outcome should wrap
+up with output that looks like this:
+```
+###################################################################################
+[*] Checking on status of pods and services...
+###################################################################################
+[*] Waiting 60 seconds for pods to transition from "Pending" to "Running" status...
+###################################################################################
+NAME                                         READY   STATUS              RESTARTS   AGE
+assignment3-django-deploy-5db4f954dc-r4sjw   1/1     Running             0          60s
+mysql-container-6c6466b64c-swnz6             1/1     Running             0          60s
+proxy-6dcd56d44d-cp962                       1/1     Running             0          60s
+NAME                         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+assignment3-django-service   NodePort    10.111.71.37     <none>        8000:32004/TCP   61s
+kubernetes                   ClusterIP   10.96.0.1        <none>        443/TCP          144s
+mysql-service                ClusterIP   10.108.177.108   <none>        3306/TCP         61s
+proxy-service                NodePort    10.105.11.142    <none>        8080:32290/TCP   61s
+####################################################################
+[*] All done! You are ready to begin working on AppSec Assignment 3.
+####################################################################
+```
+
+**If the script is successful, you can skip over Part 0.2**. If not, reach out to the instructor
+and/or course assistants for assistance.
+
+Operating systems other than the one supported for this course are not recommended;
+however, if you often find yourself voiding warranties and you enjoy operating with limited
+assistance, you may refer to the following guidance to prepare your environment:
 
 To install Docker, please see the following Website and select Docker Desktop.
 
