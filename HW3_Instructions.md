@@ -51,9 +51,7 @@ command as a standard system user (root will not work) that has sudo privileges:
 bash nyu-appsec-a3-ubuntu20043lts-setup.sh
 ```
 Assuming your standard user is not already in a group named docker, the script
-will install docker and add your standard user to the docker group.
-
-Then, reboot your system and run the command one more time.
+will install docker and add your standard user to the docker group. Then, reboot your system and run the command one more time.
  ```
 bash nyu-appsec-a3-ubuntu20043lts-setup.sh
 ```
@@ -80,7 +78,7 @@ proxy-service                NodePort    10.105.11.142    <none>        8080:322
 ####################################################################
 ```
 
-**If the script is successful, you can skip over Part 0.2**. If not, reach out to the instructor
+**If the script is successful, you can skip over Part 0.2** after reviewing Part 0.1. If not, reach out to the instructor
 and/or course assistants for assistance.
 
 Operating systems other than the one supported for this course are not recommended;
