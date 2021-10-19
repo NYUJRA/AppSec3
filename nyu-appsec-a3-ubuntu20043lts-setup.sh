@@ -13,6 +13,7 @@
 #================================================================================
 
 # Created this var just in case script ever decides to get fancier.
+# For now, this pretty much only defines where the assignment repo will be cloned.
 installDir="$HOME/Desktop"
 
 cd $installDir
