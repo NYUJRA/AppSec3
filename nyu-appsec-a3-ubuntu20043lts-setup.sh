@@ -9,6 +9,7 @@
 #usage		 : sudo bash nyu-appsec-a3-ubuntu20043lts-setup.sh
 #notes           : Run as standard user, ***NOT ROOT***. Provide sudo password 
 #		    when prompted. Tested on fresh install of Ubuntu 20.04.3 LTS.
+#		    Must run this script twice to complete the installation.
 #bash_version    : 5.0.17(1)-release (x86_64-pc-linux-gnu)
 #================================================================================
 
@@ -18,7 +19,7 @@ installDir="$HOME/Desktop"
 
 cd $installDir
 
-# Install docker is user is not already in docker group
+# Install docker if user is not already in docker group
 if [[ $(id) != *\(docker\)* ]]; then
 	# INSTALL DOCKER
 	echo '##################################################'
