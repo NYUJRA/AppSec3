@@ -2,19 +2,14 @@
 
 ## Introduction
 
-Right when you thought things couldn't get worse, your company decided to
-re-hire Shoddycorp's Cut-Rate Contracting again. They say that you've
-done a fantastic job cleaning up their code, and that they're sure you
-can handle whatever problems may occur in the next project. It seems they will
-never learn.
-
-Now that the web application is fixed and ready, your company wants it
+You work for a company which develops a credit card processing application,
+but often hires contractors to develop components. Your company wants it
 deployed in a scalable, reliable, and secure manner. To do this, your
 company hired Shoddycorp's Cut-Rate Contracting to containerize your
 application, then deploy it in a way that ensures availability and security.
-What they delivered, as usual, falls quite short of the mark.
+What they delivered, falls quite short of the mark.
 
-Like last time, what Shoddycorp's Cut-Rate Contracting provided was a deployment
+What Shoddycorp's Cut-Rate Contracting provided was a deployment
 that *almost* works. They containerized the application, the database, and an
 Nginx reverse proxy all in Docker. They then created Kubernetes yaml files to
 run these containers in a Kubernetes cluster, and configured them to talk to
