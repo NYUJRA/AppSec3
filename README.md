@@ -2,32 +2,30 @@
 
 ## Introduction
 
-Right when you thought things couldn't get worse, your company decided to
-re-hire Shoddycorp's Cut-Rate Contracting again. They say that you've
-done a fantastic job cleaning up their code, and that they're sure you
-can handle whatever problems may occur in the next project. It seems they will
-never learn.
-
+You work for a company which develops a credit card processing application.
 Now that the web application is fixed and ready, your company wants it
 deployed in a scalable, reliable, and secure manner. To do this, your
 company hired Shoddycorp's Cut-Rate Contracting to containerize your
 application, then deploy it in a way that ensures availability and security.
-What they delivered, as usual, falls quite short of the mark.
+What they delivered, falls quite short of the mark.
 
-Like last time, what Shoddycorp's Cut-Rate Contracting provided was a deployment
+What Shoddycorp's Cut-Rate Contracting provided was a deployment
 that *almost* works. They containerized the application, the database, and an
 Nginx reverse proxy all in Docker. They then created Kubernetes yaml files to
 run these containers in a Kubernetes cluster, and configured them to talk to
-each other as needed. They even began adding some event monitoring for a
-monitoring software called Prometheus, though they didn't finish it.
+each other as needed. 
 
 However, upon further inspection we can see that they didn't quite do things
 right. They attempted to do Django migrations and database seeding using methods
 that don't really work, they only create one replica of each pod, and there are
-passwords floating around all over the place. All-in-all, it's a mess.
+passwords floating around all over the place. In addition, your company must
+comply with various cybersecurity standards and frameworks and must attest that
+the application is secure against a set of security benchmarks. It seems that 
+the contractor may have failed to meet all the regulatory requirements. All-in-all,
+it's a mess.
 
-It looks like the job to fix this falls to you, again. Luckily Kevin Gallagher
-(KG) has read through the files already and pointed out some of the things that
+It looks like the job to fix this falls to you. Luckily Adrian Abdala (AA) 
+has read through the files already and pointed out some of the things that
 are going wrong, and provided a list of things for you to fix. Before you can
 work on that, though, let's get your environment set up.
 
