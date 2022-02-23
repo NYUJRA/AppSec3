@@ -1,0 +1,29 @@
+CIS Kubernetes Benchmark
+5.2.1 Minimize the admission of privileged containers
+5.2.2 Minimize the admission of containers wishing to share the host process ID namespace
+5.2.3 Minimize the admission of containers wishing to share the host IPC namespace 
+5.2.4 Minimize the admission of containers wishing to share the host network namespace
+5.2.5 Minimize the admission of containers with allowPrivilegeEscalation
+5.2.6 Minimize the admission of root containers (Fail, Fix)
+5.2.7 Minimize the admission of containers with the NET_RAW capability
+5.4.1 Prefer using secrets as files over secrets as environment variables
+5.7.1 Create administrative boundaries between resources using namespaces
+5.7.2 Ensure that the seccomp profile is set to docker/default in your pod definitions
+
+CIS Docker Benchmark
+4.1 Ensure that a user for the container has been created (Fail, fix)
+4.2 Ensure that containers use only trusted base images (Pass)
+4.3 Ensure that unnecessary packages are not installed in the container (Fail, Fix)
+4.9 Ensure that COPY is used instead of ADD in Dockerfiles (Pass)
+4.10 Ensure secrets are not stored in Dockerfiles (Fail, Fix)
+
+CIS Oracle MySQL 8.0
+1.2 Use Dedicated Least Privileged Account for MySQL Daemon/Service (PASS)
+2.2.1 Ensure Binary and Relay Logs are Encrypted (FAIL, No Fix)
+2.3 Dedicate the Machine Running MySQL (PASS)
+2.5 Do Not Reuse Usernames (Fail, No Fix)
+2.7 Ensure 'password_lifetime' is Less Than or Equal to '365' (FAIL, fix)
+
+Audit Oracle
+# kubectl exec --stdin --tty mysql-container-6bfc65b9bf-kfrnl -- bash
+# mysql -uroot -p

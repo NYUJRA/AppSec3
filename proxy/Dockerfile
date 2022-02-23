@@ -9,5 +9,3 @@ USER root
 RUN mkdir -p /vol/static
 RUN chmod 777 /vol/static
 RUN chmod +x /sleep.sh
-
-USER nginx

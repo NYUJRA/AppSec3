@@ -1,8 +1,16 @@
 FROM python:3.8-alpine
 
+
 ENV PATH="/scripts:${PATH}"
 
 COPY requirements.txt /requirements.txt
+
+#### AA: There seems to be a lot of packages here
+RUN apk add openjdk11
+RUN apk add --no-cache mono --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+    apk add --no-cache --virtual=.build-dependencies ca-certificates && \
+    cert-sync /etc/ssl/certs/ca-certificates.crt && \
+    apk del .build-dependencies
 
 RUN apk add --update --no-cache --virtual .tmp gcc libc-dev linux-headers
 RUN apk add --update mysql-client
@@ -31,7 +39,5 @@ RUN chown -R django-app:django-app /vol
 RUN chmod -R 755 /vol/web
 
 RUN chown -R django-app:django-app /GiftcardSite
-
-USER django-app
 
 CMD ["entrypoint.sh"]
