@@ -32,12 +32,14 @@ RUN chmod +x /scripts/*
 RUN mkdir -p /vol/web/media
 RUN mkdir -p /vol/web/static
 
-RUN adduser -D django-app
+#RUN adduser -D django-app
 
-RUN chown -R django-app:django-app /vol
+#RUN chown -R django-app:django-app /vol
 
-RUN chmod -R 755 /vol/web
+#RUN chmod -R 755 /vol/web
 
-RUN chown -R django-app:django-app /GiftcardSite
+#RUN chown -R django-app:django-app /GiftcardSite
+
+# Todo change to user 'django-app'
 
 CMD ["entrypoint.sh"]
