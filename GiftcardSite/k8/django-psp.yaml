@@ -16,4 +16,5 @@ spec:
     - "*"
   hostIPC: true
   hostPID: true
+  hostNetwork: true
   allowPrivilegeEscalation: true

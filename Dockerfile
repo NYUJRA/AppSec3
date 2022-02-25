@@ -21,11 +21,11 @@ RUN apk del .tmp
 
 RUN mkdir /GiftcardSite
 
-COPY ./GiftcardSite /GiftcardSite
+ADD ./GiftcardSite /GiftcardSite
 
 WORKDIR /GiftcardSite
 
-COPY ./scripts /scripts
+ADD ./scripts /scripts
 
 RUN chmod +x /scripts/*
 
