@@ -39,42 +39,40 @@ Kubernetes is a fairly complicated beast. To help you get oriented, we've create
 
 ## Part 0: Setting up Your Environment
 
-This assignment requires Docker, minikube, and kubectl. The supported
-operating for this course is **Ubuntu 20.04.3 LTS**. You can use [this script](nyu-appsec-a3-ubuntu20043lts-setup.sh)
-to automatically install and configure the required software on the 
-supported operating system. After saving the file, simply execute the following
-command as a standard system user (root will not work) that has sudo privileges:
+This assignment requires Docker, minikube, and kubectl. These are all installed on your
+NYU-AppSec VM for the class. There is an install script included in this repository for
+reference only. If you decide to perform this assignment outside your VM, you will be
+responsible for troubleshooting any issues yourself. It should be stated that kubernetes can be confusing, so it is critical that students take the time with the commands and read the kubernetes documentation in order to troubleshoot issues.
+```
+bash nyu-appsec-a3-ubuntu20043lts-setup.sh
+```
+To build Docker images from the Dockerfiles, run the following commands. 
+```
+docker build -t nyuappsec/assign3:v0 .
+docker build -t nyuappsec/assign3-proxy:v0 proxy/
+docker build -t nyuappsec/assign3-db:v0 db/
+```
+If the builds complete without errors, you should be able to check the images in your local Docker image repository with the command
+```
+docker images
+```
+Once you have these images in your Docker image repository, you can deploy a kubernetes configuration that will use these images.
 
 ```
-bash nyu-appsec-a3-ubuntu20043lts-setup.sh
+
+kubectl apply -f db/k8
+kubectl apply -f GiftcardSite/k8
+kubectl apply -f proxy/k8
 ```
-Assuming your standard user is not already in a group named docker, the script
-will install docker and add your standard user to the docker group. Then, reboot your system and run the command one more time.
- ```
-bash nyu-appsec-a3-ubuntu20043lts-setup.sh
+To check the status of your kubernetes deployment run the following commands. 
+
 ```
-Now that docker is installed and your user is in the docker group, it will install
-the remaining software required for the assignment. A successful outcome should wrap
-up with output that looks like this:
+
+kubectl get pods
+kubectl get service
+
 ```
-###################################################################################
-[*] Checking on status of pods and services...
-###################################################################################
-[*] Waiting 60 seconds for pods to transition from "Pending" to "Running" status...
-###################################################################################
-NAME                                         READY   STATUS              RESTARTS   AGE
-assignment3-django-deploy-5db4f954dc-r4sjw   1/1     Running             0          60s
-mysql-container-6c6466b64c-swnz6             1/1     Running             0          60s
-proxy-6dcd56d44d-cp962                       1/1     Running             0          60s
-NAME                         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
-assignment3-django-service   NodePort    10.111.71.37     <none>        8000:32004/TCP   61s
-kubernetes                   ClusterIP   10.96.0.1        <none>        443/TCP          144s
-mysql-service                ClusterIP   10.108.177.108   <none>        3306/TCP         61s
-proxy-service                NodePort    10.105.11.142    <none>        8080:32290/TCP   61s
-####################################################################
-[*] All done! You are ready to begin working on AppSec Assignment 3.
-####################################################################
-```
+
 
 **If the script is successful, you can skip over Part 0.2** after reviewing Part 0.1. If not, reach out to the instructor
 and/or course assistants for assistance.
