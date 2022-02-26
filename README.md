@@ -38,6 +38,23 @@ you would like to mimic in any way.
 Kubernetes is a fairly complicated beast. To help you get oriented, we've created a [Frequently Asked Questions](FAQ.md) document that should help with common questions. As, always, please make use of office hours and ask questions by email when you run into trouble!
 
 ## Part 0: Setting up Your Environment
+### 1) Synchronize Your Repository and Acquire the Lab Material
+---
+Log into GitHub within any web browser and create an empty, **private** repository named ``<NetID>-appsec3``.
+```
+cd ~
+git clone https://github.com/NYUJRA/AppSec3.git AppSec3
+cd AppSec3
+git remote remove origin
+git init
+git remote add origin https://<YourGitHubHandle>:<YourPersonalAccessToken>@github.com/<YourGitHubHandle>/<NetID>-appsec3.git
+git push -u origin main
+```
+
+
+You should now have a local working directory in ``~/AppSec3`` that is configured to use your remote GitHub repository at ``https://github.com/<YourGitHubHandle>/<NetID>-appsec3`` as a version control system.
+```
+```
 
 This assignment requires Docker, minikube, and kubectl. These are all installed on your
 NYU-AppSec VM for the class. There is an install script included in this repository for
@@ -72,31 +89,6 @@ kubectl get pods
 kubectl get service
 
 ```
-
-
-**If the script is successful, you can skip over Part 0.2** after reviewing Part 0.1. If not, reach out to the instructor
-and/or course assistants for assistance.
-
-Operating systems other than the one supported for this course are not recommended;
-however, if you often find yourself voiding warranties and you enjoy operating with limited
-assistance, you may refer to the following guidance to prepare your environment:
-
-To install Docker, please see the following Website and select Docker Desktop.
-
-https://www.docker.com/get-started
-
-To install Kubectl, please see the following Website.
-
-https://kubernetes.io/docs/tasks/tools/
-
-To install Minikube, please see the following Website.
-
-https://minikube.sigs.k8s.io/docs/start
-
-Like in the previous assignments we will be using Git and Github for submission,
-so please ensure you still have Git installed. Though we will not be checking
-for them, remember that it is in your best interest to continue to follow git
-best practices.
 
 When you are ready to begin the project, please create a repository 
 on GitHub for your third assignment. Like before, be sure to make 
