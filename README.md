@@ -16,22 +16,10 @@ run these containers in a Kubernetes cluster, and configured them to talk to
 each other as needed. 
 
 However, upon further inspection we can see that they didn't quite do things
-right. They attempted to do Django migrations and database seeding using methods
-that don't really work, they only create one replica of each pod, and there are
-passwords floating around all over the place. In addition, your company must
-comply with various cybersecurity standards and frameworks and must attest that
-the application is secure against a set of security benchmarks. It seems that 
-the contractor may have failed to meet all the regulatory requirements. All-in-all,
-it's a mess.
-
-It looks like the job to fix this falls to you. Luckily Adrian Abdala (AA) 
-has read through the files already and pointed out some of the things that
-are going wrong, and provided a list of things for you to fix. Before you can
-work on that, though, let's get your environment set up.
-
-Just a disclaimer, in case it needs to be said again: 
-Like with all Shoddycorp's Cut-Rate Contracting deliverables, this is not code
-you would like to mimic in any way.
+right. Your company must comply with various cybersecurity standards and frameworks
+and must attest that the application is secure against a set of security benchmarks.
+It seems that the contractor may have failed to meet all the regulatory requirements. 
+All-in-all, it's a mess.
 
 ## Frequently Asked Questions
 
@@ -164,7 +152,7 @@ full credit.
 Finally, rebuild your Docker container for the Django application, and then
 update your pods using the kubectl apply commands specified earlier.
 
-## Part 1: Remediate Security Review Findings
+## Part 2: 
 
 
 ## Grading
