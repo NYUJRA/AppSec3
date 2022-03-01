@@ -53,8 +53,6 @@ git push -u origin main
 
 
 You should now have a local working directory in ``~/AppSec3`` that is configured to use your remote GitHub repository at ``https://github.com/<YourGitHubHandle>/<NetID>-appsec3`` as a version control system.
-```
-```
 
 This assignment requires Docker, minikube, and kubectl. These are all installed on your
 NYU-AppSec VM for the class. There is an install script included in this repository for
@@ -63,53 +61,26 @@ responsible for troubleshooting any issues yourself. It should be stated that ku
 ```
 bash nyu-appsec-a3-ubuntu20043lts-setup.sh
 ```
-To build Docker images from the Dockerfiles, run the following commands. 
-```
-docker build -t nyuappsec/assign3:v0 .
-docker build -t nyuappsec/assign3-proxy:v0 proxy/
-docker build -t nyuappsec/assign3-db:v0 db/
-```
-If the builds complete without errors, you should be able to check the images in your local Docker image repository with the command
-```
-docker images
-```
-Once you have these images in your Docker image repository, you can deploy a kubernetes configuration that will use these images.
 
-```
-
-kubectl apply -f db/k8
-kubectl apply -f GiftcardSite/k8
-kubectl apply -f proxy/k8
-```
-To check the status of your kubernetes deployment run the following commands. 
-
-```
-
-kubectl get pods
-kubectl get service
-
-```
-
-When you are ready to begin the project, please create a repository 
-on GitHub for your third assignment. Like before, be sure to make 
-the repository **private**.
-
-### Part 0.1: Rundown of Files
+### 2) Rundown of Files
 
 This repository has a lot of files. The following are files you will likely be
 modifying throughout this assignment.
 
+* Baselines/ - CIS Benchmarks 
 * GiftcardSite/GiftcardSite/settings.py
 * GiftcardSite/LegacySite/views.py
-* GiftcardSite/k8/django-deploy.yaml
+* GiftcardSite/k8/ - Giftcard site kubernetes files
 * db/Dockerfile
-* db/setup.sql
-* db/k8/db-deployment.yaml
+* db/setup.sql - Database seed file
+* db/k8/ - Database kubernetes files
+* proxy/Dockerfile
+* proxy/k8/ - Proxy kubernetes files
 
 In addition, you will likely need to make new files to work with Prometheus, as
 described in Part 3.
 
-### Part 0.2: Getting it to Work 
+### 3) Getting it to Work 
 
 Once you have installed the necessary software, you are ready to run the whole thing
 using minikube. First, start minikube.
@@ -174,37 +145,27 @@ This should open your browser to the deployed site. You should be able to view
 the first page of the site, and navigate around. If this worked, you are ready
 to move on to the next part.
 
-## Part 1: Securing Secrets.
+## Part 1: Remediate Security Review Findings
 
-Unfortunately there are many values that are supposed to be secret floating
-around in the source code and in the yaml files. Typically we do not want this.
-Secret values should be protected so that we can move the source code to GitHub
-and put the docker images on Dockerhub and not compromise any secrets. In
-addition to keeping secrets secret, this method also allows for changing secrets
-more easily.
-
-For this part, your job will be to find some the places in which secrets are
-used and replace them with a more secure way of doing secrets. Specifically, you
-should look into Kubernetes secrets, how they work, and how they can be used
-with both kubernetes yaml files and how they may be accessed via Python (hint:
-they end up as environment variables).
-
-For this portion of the assignment, you should submit:
-
-1. All kubernetes yaml files modified to use secrets
-2. All changes necessary to the Web application (limited to views.py and
-   settings.py as mentioned above) needed to use the passed secrets.
-3. A file, called secrets.txt, which demonstrates how you added the secrets.
-   This must include all commands used, etc.
+The security team at your organization assessed the application deployment
+against a subset of security baselines and found that it failed most 
+controls. Unfortunately for you, this applicaiton is a high priority, and you 
+have been charged with remediating all the hits of the security review before 
+deployment of the applicaiton. The `SecurityReview` directory contains the
+controls, control number, results and remediation for each control. Additional
+information, and audit methods are available in the corresponding CIS Benchmarks
+in the `Benchmarks` directory. It is important to research source documentation 
+on proper implementation of the security controls, and perform testing to ensure
+the proper functionality of the application. Careful documentation of all 
+modifications to the application and configurations in order to implement each 
+control is critical for maintainability of the application and is requried for
+full credit.
 
 Finally, rebuild your Docker container for the Django application, and then
 update your pods using the kubectl apply commands specified earlier.
 
-When you are finished with this section, please mark your part 1 
-submission by tagging the desired commit with the tag "part_1_complete"
+## Part 1: Remediate Security Review Findings
 
-
-* Each running service gets a DNS name that corresponds to the service name. So to refer to the proxy running on port 8080, you would use `proxy-service:8080`.
 
 ## Grading
 
@@ -238,7 +199,7 @@ account as a contributor to give them access for grading.
 
 For this section, your instructors are:
 * John Ryan Allen, GitHub ID `NYUJRA`.
-* Abhijit Chitnis, GitHub ID `achitnis007`.
+* Adrian Hassan Abdala, GitHub ID `kurlee`.
 
 For this section, your TAs are:
 * Jess Ayala, GitHub ID `jayala-29`.
