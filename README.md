@@ -149,6 +149,10 @@ modifications to the application and configurations in order to implement each
 control is critical for maintainability of the application and is requried for
 full credit.
 
+### Task 1) Validate findings
+### Task 2) Remediate
+### Task 3) Verify finding resolution
+
 Finally, rebuild your Docker container for the Django application, and then
 update your pods using the kubectl apply commands specified earlier.
 
