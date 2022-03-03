@@ -154,64 +154,13 @@ update your pods using the kubectl apply commands specified earlier.
 
 ## Part 2: 
 
+Validation of security controls can be a huge overhead to an organization if done 
+manually. Choose two of the controls to check on an hourly basis. One of the
+controls must check a value in the database (Oracle MySQL 8.0 :: 2.7, 2.9, or 4.2)
+This automated check should be implemented using Kubernetes Jobs which you can read
+about [here](https://kubernetes.io/docs/concepts/workloads/controllers/job/).Again,
+you must document in your report and commit all files to your repo for grading.
 
-## Grading
-
-Total points: 100
-
-Part 1 is worth 40 points:
-
-* 20 points for the yaml files that use Kubernetes secrets.
-* 10 points for the changes to the Django code.
-* 10 points for the writeup.
-
-Part 2 is worth 30 points:
-
-* 10 points for the kubernetes jobs
-* 5 points for modified and/or new Dockerfiles
-* 5 points for the code to seed the database
-* 10 points for the writeup.
-
-Part 3 is worth 30 points:
-
-* 5 points for removing dangerous monitoring
-* 5 points for expanding monitoring
-* 10 points for all yaml files for Prometheus
-* 10 points for the writeup.
-
-## What to Submit
-
-On NYU Classes, submit a link to your GitHub repository. The repository
-should be **private**, and you should add the instructor/TA's GitHub
-account as a contributor to give them access for grading.
-
-For this section, your instructors are:
-* John Ryan Allen, GitHub ID `NYUJRA`.
-* Adrian Hassan Abdala, GitHub ID `kurlee`.
-
-For this section, your TAs are:
-* Jess Ayala, GitHub ID `jayala-29`.
-* Geetha D, GitHub ID `dgeeth9595`.
-* Harsh Patel, GitHub ID `harshsorra`.
-
-The repository should contain:
-
-* Part 1
-  * Your yaml files using Kubernetes secrets.
-  * All files you changed from the GiftcardSite/ directory.
-  * A writeup called secrets.txt.
-  * A commit with the above mentioned files tagged as part_1_complete.
-* Part 2
-  * Yaml files that create the Kubernetes jobs.
-  * Modified and/or new Dockerfiles.
-  * All code you wrote to seed the database.
-  * A writeup called jobs.txt.
-  * A commit with these files and code tagged as part_2_complete.
-* Part 3
-  * A modified GiftcardSite/LegacySite/views.py file.
-  * Your yaml files for running Prometheus.
-  * A writeup called Prometheus.txt.
-  * A commit with these files and code tagged as part_3_complete.
 
 ## Concluding Remarks
 
