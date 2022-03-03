@@ -16,110 +16,59 @@ run these containers in a Kubernetes cluster, and configured them to talk to
 each other as needed. 
 
 However, upon further inspection we can see that they didn't quite do things
-right. They attempted to do Django migrations and database seeding using methods
-that don't really work, they only create one replica of each pod, and there are
-passwords floating around all over the place. In addition, your company must
-comply with various cybersecurity standards and frameworks and must attest that
-the application is secure against a set of security benchmarks. It seems that 
-the contractor may have failed to meet all the regulatory requirements. All-in-all,
-it's a mess.
-
-It looks like the job to fix this falls to you. Luckily Adrian Abdala (AA) 
-has read through the files already and pointed out some of the things that
-are going wrong, and provided a list of things for you to fix. Before you can
-work on that, though, let's get your environment set up.
-
-Just a disclaimer, in case it needs to be said again: 
-Like with all Shoddycorp's Cut-Rate Contracting deliverables, this is not code
-you would like to mimic in any way.
+right. Your company must comply with various cybersecurity standards and frameworks
+and must attest that the application is secure against a set of security benchmarks.
+It seems that the contractor may have failed to meet all the regulatory requirements. 
+All-in-all, it's a mess.
 
 ## Frequently Asked Questions
 
 Kubernetes is a fairly complicated beast. To help you get oriented, we've created a [Frequently Asked Questions](FAQ.md) document that should help with common questions. As, always, please make use of office hours and ask questions by email when you run into trouble!
 
 ## Part 0: Setting up Your Environment
+### 1) Synchronize Your Repository and Acquire the Lab Material
+---
+Log into GitHub within any web browser and create an empty, **private** repository named ``<NetID>-appsec3``.
+```
+cd ~
+git clone https://github.com/NYUJRA/AppSec3.git AppSec3
+cd AppSec3
+git remote remove origin
+git init
+git remote add origin https://<YourGitHubHandle>:<YourPersonalAccessToken>@github.com/<YourGitHubHandle>/<NetID>-appsec3.git
+git push -u origin main
+```
 
-This assignment requires Docker, minikube, and kubectl. The supported
-operating for this course is **Ubuntu 20.04.3 LTS**. You can use [this script](nyu-appsec-a3-ubuntu20043lts-setup.sh)
-to automatically install and configure the required software on the 
-supported operating system. After saving the file, simply execute the following
-command as a standard system user (root will not work) that has sudo privileges:
 
+You should now have a local working directory in ``~/AppSec3`` that is configured to use your remote GitHub repository at ``https://github.com/<YourGitHubHandle>/<NetID>-appsec3`` as a version control system.
+
+This assignment requires Docker, minikube, and kubectl. These are all installed on your
+NYU-AppSec VM for the class. There is an install script included in this repository for
+reference only. If you decide to perform this assignment outside your VM, you will be
+responsible for troubleshooting any issues yourself. It should be stated that kubernetes can be confusing, so it is critical that students take the time with the commands and read the kubernetes documentation in order to troubleshoot issues.
 ```
 bash nyu-appsec-a3-ubuntu20043lts-setup.sh
 ```
-Assuming your standard user is not already in a group named docker, the script
-will install docker and add your standard user to the docker group. Then, reboot your system and run the command one more time.
- ```
-bash nyu-appsec-a3-ubuntu20043lts-setup.sh
-```
-Now that docker is installed and your user is in the docker group, it will install
-the remaining software required for the assignment. A successful outcome should wrap
-up with output that looks like this:
-```
-###################################################################################
-[*] Checking on status of pods and services...
-###################################################################################
-[*] Waiting 60 seconds for pods to transition from "Pending" to "Running" status...
-###################################################################################
-NAME                                         READY   STATUS              RESTARTS   AGE
-assignment3-django-deploy-5db4f954dc-r4sjw   1/1     Running             0          60s
-mysql-container-6c6466b64c-swnz6             1/1     Running             0          60s
-proxy-6dcd56d44d-cp962                       1/1     Running             0          60s
-NAME                         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
-assignment3-django-service   NodePort    10.111.71.37     <none>        8000:32004/TCP   61s
-kubernetes                   ClusterIP   10.96.0.1        <none>        443/TCP          144s
-mysql-service                ClusterIP   10.108.177.108   <none>        3306/TCP         61s
-proxy-service                NodePort    10.105.11.142    <none>        8080:32290/TCP   61s
-####################################################################
-[*] All done! You are ready to begin working on AppSec Assignment 3.
-####################################################################
-```
 
-**If the script is successful, you can skip over Part 0.2** after reviewing Part 0.1. If not, reach out to the instructor
-and/or course assistants for assistance.
-
-Operating systems other than the one supported for this course are not recommended;
-however, if you often find yourself voiding warranties and you enjoy operating with limited
-assistance, you may refer to the following guidance to prepare your environment:
-
-To install Docker, please see the following Website and select Docker Desktop.
-
-https://www.docker.com/get-started
-
-To install Kubectl, please see the following Website.
-
-https://kubernetes.io/docs/tasks/tools/
-
-To install Minikube, please see the following Website.
-
-https://minikube.sigs.k8s.io/docs/start
-
-Like in the previous assignments we will be using Git and Github for submission,
-so please ensure you still have Git installed. Though we will not be checking
-for them, remember that it is in your best interest to continue to follow git
-best practices.
-
-When you are ready to begin the project, please create a repository 
-on GitHub for your third assignment. Like before, be sure to make 
-the repository **private**.
-
-### Part 0.1: Rundown of Files
+### 2) Rundown of Files
 
 This repository has a lot of files. The following are files you will likely be
 modifying throughout this assignment.
 
+* Baselines/ - CIS Benchmarks 
 * GiftcardSite/GiftcardSite/settings.py
 * GiftcardSite/LegacySite/views.py
-* GiftcardSite/k8/django-deploy.yaml
+* GiftcardSite/k8/ - Giftcard site kubernetes files
 * db/Dockerfile
-* db/setup.sql
-* db/k8/db-deployment.yaml
+* db/setup.sql - Database seed file
+* db/k8/ - Database kubernetes files
+* proxy/Dockerfile
+* proxy/k8/ - Proxy kubernetes files
 
 In addition, you will likely need to make new files to work with Prometheus, as
 described in Part 3.
 
-### Part 0.2: Getting it to Work 
+### 3) Getting it to Work 
 
 Once you have installed the necessary software, you are ready to run the whole thing
 using minikube. First, start minikube.
@@ -184,186 +133,38 @@ This should open your browser to the deployed site. You should be able to view
 the first page of the site, and navigate around. If this worked, you are ready
 to move on to the next part.
 
-## Part 1: Securing Secrets.
+## Part 1: Remediate Security Review Findings
 
-Unfortunately there are many values that are supposed to be secret floating
-around in the source code and in the yaml files. Typically we do not want this.
-Secret values should be protected so that we can move the source code to GitHub
-and put the docker images on Dockerhub and not compromise any secrets. In
-addition to keeping secrets secret, this method also allows for changing secrets
-more easily.
+The security team at your organization assessed the application deployment
+against a subset of security baselines and found that it failed most 
+controls. Unfortunately for you, this applicaiton is a high priority, and you 
+have been charged with remediating all the hits of the security review before 
+deployment of the applicaiton. The `SecurityReview` directory contains the
+controls, control number, results and remediation for each control. Additional
+information, and audit methods are available in the corresponding CIS Benchmarks
+in the `Benchmarks` directory. It is important to research source documentation 
+on proper implementation of the security controls, and perform testing to ensure
+the proper functionality of the application. Careful documentation of all 
+modifications to the application and configurations in order to implement each 
+control is critical for maintainability of the application and is requried for
+full credit.
 
-For this part, your job will be to find some the places in which secrets are
-used and replace them with a more secure way of doing secrets. Specifically, you
-should look into Kubernetes secrets, how they work, and how they can be used
-with both kubernetes yaml files and how they may be accessed via Python (hint:
-they end up as environment variables).
-
-For this portion of the assignment, you should submit:
-
-1. All kubernetes yaml files modified to use secrets
-2. All changes necessary to the Web application (limited to views.py and
-   settings.py as mentioned above) needed to use the passed secrets.
-3. A file, called secrets.txt, which demonstrates how you added the secrets.
-   This must include all commands used, etc.
+### Task 1) Validate findings
+### Task 2) Remediate
+### Task 3) Verify finding resolution
 
 Finally, rebuild your Docker container for the Django application, and then
 update your pods using the kubectl apply commands specified earlier.
 
-When you are finished with this section, please mark your part 1 
-submission by tagging the desired commit with the tag "part_1_complete"
+## Part 2: 
 
-## Part 2: Applying Migrations
+Validation of security controls can be a huge overhead to an organization if done 
+manually. Choose two of the controls to check on an hourly basis. One of the
+controls must check a value in the database (Oracle MySQL 8.0 :: 2.7, 2.9, or 4.2)
+This automated check should be implemented using Kubernetes Jobs which you can read
+about [here](https://kubernetes.io/docs/concepts/workloads/controllers/job/). Again,
+you must document in your report and commit all files to your repo for grading.
 
-In Django, when changes are made to the models of the application the developer
-performs database migrations to update the database. This ensures that the
-database reflects the changes made in the model. In addition, when the Database
-pod is first spawned it needs to be seeded with starting data, in this case
-information about the products.
-
-The way that Shoddycorp's Cut-Rate Contracting chose to do this is questionable.
-They decided to create a new Dockerfile that modifies the default MYSQL docker
-image to include a sql script that both performs migrations and seeds the
-database at the same time. This only occurs when the pod is created, so in order
-to perform changes to the database the MYSQL pod must be destroyed and a new one
-must go up in its place. This is less than ideal. Instead, we want to be able to
-run migrations whenever there is a change in the models, and only seed the data
-once when the MYSQL Database is created. However, we need to apply migrations
-once before we seed the database to ensure the proper tables are present.
-
-To achieve this we will use something called Kubernetes jobs. In this portion of
-the assignment you must write two Kubernetes jobs, one to apply migrations from
-Django and one to seed the Database. You will need to submit:
-
-* One yaml file for the migrations job
-* One yaml file for the database seeding job
-* Any Dockerfiles you used for these jobs (in separate, descriptively named 
-  folders)
-* Any code you wrote to perform database seeding.
-* A jobs.txt file that describes what you did in this section.
-
-When you finish this part of the assignment, please mark your part 2 
-submission by tagging the desired commit with the tag "part_2_complete"
-
-## Part 3: Monitoring with Prometheus
-
-It seems the DevOps employee at Shoddycorp's Cut-Rate Contracting decided to add
-some monitoring to the Web application using Prometheus. However, why they do
-seem to know how to use the Python Prometheus client to perform monitoring, they
-seem to struggle with understanding what your company may want to monitor. More,
-they seem to be using Prometheus' monitoring to monitor things that you want to
-remain secret!
-
-As if that wasn't bad enough, it seems that the employee also didn't complete
-the Prometheus setup! While there is some monitoring there, there is no
-Prometheus service to collect the information that's being exposed on the site.
-
-In this section of the assignment you will be fixing this situation by removing
-problematic monitoring done using Prometheus' python client, and expanding the
-reasonable monitoring with a few more metrics. Then you will create a Prometheus
-pod and service for Kubernetes so it can monitor your application.
-
-Specifically, in this part you must:
-
-### Part 3.1: Remove unwanted monitoring.
-
-There exists some unsafe monitoring of sensitive data in views.py. Remove all
-monitoring that exposes any sensitive secrets.
-
-All changes in this section should occur in the GiftcardSite/LegacySite/views.py
-file.
-
-### Part 3.2: Expand reasonable monitoring.
-
-There are things we may want to monitor using Prometheus. In this part of the
-assignment you should add a Prometheus counter that counts all of the times we 
-purposely return a 404 message in views.py. These lines are caused by Database 
-errors, so you should name this counter database_error_return_404.
-
-All changes in this section should occur in the GiftcardSite/LegacySite/views.py
-file.
-
-### Part 3.3: Add Prometheus
-
-All of this data is pointless if it is not being collected. In this section you
-should add Prometheus to your Kubernetes cluster and use it to automatically
-monitor the metrics from your Web application. Information about how to add
-Prometheus to Kubernetes can be found at the following links.
-
-https://prometheus.io/docs/introduction/overview/
-
-For this section you will submit all of the yaml files that you needed to run
-Prometheus, as well as a writeup called Prometheus.txt describing the steps you
-took to get it running.
-
-When you finish this part of the assignment, please mark your part 3 
-submission by tagging the desired commit with the tag "part_3_complete"
-
-Hints:
-
-* You probably want to look into `helm`, a package manager for kubernetes that makes it easy to install services like Prometheus.
-
-* To configure Prometheus you probably want to use `configmaps`, which are a way of providing configuration information to running pods. You can see what configmaps are available by using `kubectl get configmaps`, and output their current configuration by doing `kubectl get configmap <service_name> -o yaml`. You can also directly edit the configuration with `kubectl edit configmap <service_name>`.
-
-* Each running service gets a DNS name that corresponds to the service name. So to refer to the proxy running on port 8080, you would use `proxy-service:8080`.
-
-## Grading
-
-Total points: 100
-
-Part 1 is worth 40 points:
-
-* 20 points for the yaml files that use Kubernetes secrets.
-* 10 points for the changes to the Django code.
-* 10 points for the writeup.
-
-Part 2 is worth 30 points:
-
-* 10 points for the kubernetes jobs
-* 5 points for modified and/or new Dockerfiles
-* 5 points for the code to seed the database
-* 10 points for the writeup.
-
-Part 3 is worth 30 points:
-
-* 5 points for removing dangerous monitoring
-* 5 points for expanding monitoring
-* 10 points for all yaml files for Prometheus
-* 10 points for the writeup.
-
-## What to Submit
-
-On NYU Classes, submit a link to your GitHub repository. The repository
-should be **private**, and you should add the instructor/TA's GitHub
-account as a contributor to give them access for grading.
-
-For this section, your instructors are:
-* John Ryan Allen, GitHub ID `NYUJRA`.
-* Abhijit Chitnis, GitHub ID `achitnis007`.
-
-For this section, your TAs are:
-* Jess Ayala, GitHub ID `jayala-29`.
-* Geetha D, GitHub ID `dgeeth9595`.
-* Harsh Patel, GitHub ID `harshsorra`.
-
-The repository should contain:
-
-* Part 1
-  * Your yaml files using Kubernetes secrets.
-  * All files you changed from the GiftcardSite/ directory.
-  * A writeup called secrets.txt.
-  * A commit with the above mentioned files tagged as part_1_complete.
-* Part 2
-  * Yaml files that create the Kubernetes jobs.
-  * Modified and/or new Dockerfiles.
-  * All code you wrote to seed the database.
-  * A writeup called jobs.txt.
-  * A commit with these files and code tagged as part_2_complete.
-* Part 3
-  * A modified GiftcardSite/LegacySite/views.py file.
-  * Your yaml files for running Prometheus.
-  * A writeup called Prometheus.txt.
-  * A commit with these files and code tagged as part_3_complete.
 
 ## Concluding Remarks
 
