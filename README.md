@@ -139,10 +139,10 @@ The security team at your organization assessed the application deployment
 against a subset of security baselines and found that it failed most 
 controls. Unfortunately for you, this applicaiton is a high priority, and you 
 have been charged with remediating all the hits of the security review before 
-deployment of the applicaiton. The `SecurityReview` directory contains the
+deployment of the applicaiton. The [`SecurityReview`](https://github.com/NYUJRA/AppSec3/tree/master/SecurityReview) directory contains the
 controls, control number, results and remediation for each control. Additional
 information, and audit methods are available in the corresponding CIS Benchmarks
-in the `Benchmarks` directory. It is important to research source documentation 
+in the [`Benchmarks`](https://github.com/NYUJRA/AppSec3/tree/master/Benchmarks) directory. It is important to research source documentation 
 on proper implementation of the security controls, and perform testing to ensure
 the proper functionality of the application. Careful documentation of all 
 modifications to the application and configurations in order to implement each 
